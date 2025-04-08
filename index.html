@@ -5,7 +5,13 @@
     <meta charset="utf-8" />
     <title>Cagri's first javascript</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- jQuery UI -->
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+
     <style>
         .calculaterButton {
 
@@ -120,6 +126,8 @@
             margin: 8px auto;
             padding: 10px;
             border-radius: 8px;
+            border: 1px solid #b2bec3;
+            cursor: move;
             width: 300px;
             display: flex;
             justify-content: space-between;
@@ -178,14 +186,82 @@
             justify-content: center;
             margin-bottom: 11px;
             margin-left: 24px;
-            margin-top:10px ;
+            margin-top: 10px;
         }
+
         #weatherButton {
             padding: 10px 20px;
             cursor: pointer;
             background-color: darkcyan;
             border-radius: 15px;
             border-color: darkcyan;
+        }
+
+        #sortable {
+
+            list-style: none;
+            padding: 0;
+            width: 200px;
+            margin: 20px auto;
+        }
+
+        .checked {
+            text-decoration: line-through;
+            color: gray;
+            background-color: #dcdcdc;
+        }
+
+        #checkList {
+            list-style: none;
+            padding: 0;
+            width: 200px;
+            margin: 20px auto;
+        }
+
+        .liCheck {
+            margin: 8px;
+            padding: 10px;
+            border: 1px solid #f30f0f;
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+
+        .deleteBtn {
+            position: absolute;
+            right: 10px;
+            top: 18px;
+            bottom: 18px;
+            border-radius: 15px;
+            background: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .libaba {
+            background-color: #f0f0f0;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            position: relative;
+            display: flex;
+            width: 80%;
+        }
+
+        #noteInput {
+            width: 80%;
+            padding: 10px;
+        }
+
+        #addNote {
+            padding: 10px 20px;
+        }
+
+        .noteList {
+
+            list-style: none;
+            padding: 0;
         }
     </style>
 </head>
@@ -288,10 +364,11 @@
 
     </div>
 
+    <p style="background-color: white; color: rgb(255, 60, 0); text-align: center; font-size: 40px;">2025/4/8</p>
 
     <h2>counter: <span id="numberx">0</span></h2>
 
-    <button class="buttonPlus" id="pluss">Pluss</button>
+    <button class="buttonPlus" id="pluss">Plus</button>
     <button class="buttonPlus" id="min"> Minus </button>
     <button class="buttonPlus" id="res">Restart</button>
 
@@ -319,17 +396,174 @@
 
     <button id="weatherButton">Weather forecast</button>
 
+    <h4 style="text-align: center;">Drag and Sort</h4>
+
+    <ul id="sortable">
+        <li>Task 1</li>
+        <li>Task 2</li>
+        <li>Task 3</li>
+        <li>Task 4</li>
+
+    </ul>
+
+
+    <h2 style="text-align: center;">Checklist</h2>
+
+    <ul id="checkList">
+        <li class="liCheck">Read book</li>
+        <li class="liCheck">Drink water</li>
+        <li class="liCheck">Write code</li>
+        <li class="liCheck">Live</li>
+        <li class="liCheck">Walk</li>
+        <li class="liCheck">Think about universe and meaning of life if you want</li>
+    </ul>
+
+
+    <h2 style="text-align: center;">Coundown Checklist</h2>
+
+
+    <ul style="list-style: none; padding: 0; max-width: 400px; margin: auto; " id="cchecklist">
+        <li class="liCheck" data-time="10"> <span class="text"> Make coffe</span> <span class="timer">10</span></li>
+        <li class="liCheck " data-time="20"> <span class="text">Write some code</span> <span class="timer">20</span>
+        </li>
+        <li class="liCheck" data-time="15"> <span class="text"> Eat pizza (in canada)</span> <span
+                class="timer">15</span>
+        </li>
+    </ul>
+
+    <p style="font-size: 20px;">New notepad app</p>
+
+
+    <h3>Cagri's NotePad </h3>
+
+    <input type="text" id="noteInput" placeholder="Enter your Note...">
+    <button id="addNote">Add</button>
+
+    <ul id="noteList"></ul>
+
     <script>
 
+        //Notepad clone i think
+
+        $(document).ready(function () {
+
+            loadNotes();
+
+            function addNote() {
+                const noteText = $("#noteInput").val().trim();
+
+                if (noteText === "") return;
+
+                const timestamp = new Date().toLocaleString();
+                const noteObj = {
+                    text: noteText,
+                    time: timestamp
+                };
+
+                appendNoteToList(noteObj);
+
+                saveNoreToStorage(noteObj);
+
+                $("#noteInput").val("");
+
+            }
+            function appendNoteToList(noteObj) {
+                $("#noteList").append(
+                    `<li class="libaba">
+                <span><strong>${noteObj.text}</strong><br><small>${noteObj.time}</small></span>
+                <button class="deleteBtn">Delete</button>
+            </li>`
+                );
+                $("#noteList").sortable();
+
+            }
+
+            function saveNoreToStorage(noteObj) {
+                let notes = JSON.parse(localStorage.getItem("notes")) || [];
+                notes.push(noteObj);
+                localStorage.setItem("notes", JSON.stringify(notes));
+            }
+            function loadNotes() {
+                let notes = JSON.parse(localStorage.getItem("notes")) || [];
+                notes.forEach(note => appendNoteToList(note));
+            }
+
+            $("#noteList").on("click", ".deleteBtn", function () {
+                const index = $(this).parent().index();
+                $(this).parent().remove();
+
+                let notes = JSON.parse(localStorage.getItem("notes")) || [];
+                notes.splice(index, 1);
+                localStorage.setItem("notes", JSON.stringify(notes));
+            });
+
+            $("#addNote").click(function () {
+                addNote();
+            });
+            $("#noteInput").keydown(function (e) {
+                if (e.key === "Enter") {
+                    addNote();
+                }
+            })
+        });
+
+
+        //Coundown Checklist
+
+
+        $(document).ready(function () {
+            $("#cchecklist li").each(function () {
+                let $li = $(this);
+                let time = parseInt($li.attr("data-time"));
+
+                let interval = setInterval(function () {
+                    if ($li.hasClass("done")) {
+                        clearInterval(interval); // if mission is compliated stop the time
+                        return;
+                    }
+
+                    time--;
+                    $li.find(".timer").text(time);
+
+                    if (time <= 0) {
+                        clearInterval(interval);
+                        $li.addClass("expired");
+                        $li.find(".timer").text("time is up!");
+                    }
+                }, 1000);
+            });
+
+            // mission complated sign
+            $("#cchecklist").on("click", "li", function () {
+                if (!$(this).hasClass("expired")) {
+                    $(this).toggleClass("done");
+                }
+            });
+        });
+
+        // checklist
+
+        $(function () {
+            $("#checkList").on("click", "li", function () {
+                $(this).toggleClass("checked");
+            });
+        });
+
+        //Drag and Sort 
+
+        $(function () {
+            $("#sortable").sortable(); // burası her şeyi başlatıyor
+        });
+
         // weather app
-        $(document).ready(function(){
+        $(document).ready(function () {
             const weatherStatus = ["☀️", "🌧️", "❄️", "💨", "⛅", "🌩️", "☁️"];
 
-            $('#weatherButton').click(function(){
+            $('#weatherButton').click(function () {
                 const random = Math.floor(Math.random() * weatherStatus.length);
                 const chosen = weatherStatus[random];
 
-                $('#weatherBox').fadeOut(200, function(){
+                $('#weatherBox').fadeOut(200, function () {
                     $(this).text(chosen).fadeIn(200);
                 });
             });
@@ -371,17 +605,21 @@
         $(document).ready(function () {
             // when click add button
 
-            function uploadTask(){
+            function uploadTask() {
                 const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
                 $("#TaskList").empty();
-                tasks.forEach(function(task) {
+                tasks.forEach(function (task) {
                     $("#TaskList").append("<li>" + task + "</li>");
                 });
             }
 
+            $(function () {
+                $("#TaskList").sortable();
+            });
+
             function saveTask() {
                 const tasks = [];
-                $("#TaskList li").each(function(){
+                $("#TaskList li").each(function () {
                     tasks.push($(this).text());
                 });
                 localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -404,11 +642,12 @@
             $("#TaskList").on("click", "li", function () {
                 $(this).remove();
                 saveTask();
+
             });
         });
         //to do list codes ends
 
-        //alert(" Hello! ");
+        alert(" Hello! ");
 
         $(document).ready(function () {
             let counter = 0;
@@ -500,12 +739,31 @@
         }
 
 
+        $(document).ready(function () {
+            function yukleG() {
+                const gorevler = JSON.parse(localStorage.getItem('gorevler')) || [];
+                $('#list').empty();
+                gorevler.forEach(function (gorev) {
+                    $("#list").append("<li>" + gorev + "<li>");
+                });
+            }
+
+            function kaydetG() {
+                const gorevler = [];
+                $("#list li") / each(function () {
+                    gorevler.push($(this).text());
+                });
+                localStorage.setItem("gorevler", JSON.stringify(gorevler));
+            }
+        });
+
         function addTask() {
             const input = document.getElementById("task");
             const list = document.getElementById("list");
 
             const text = input.value.trim();
-            if (text === "") return;
+            if (text === "")
+                return;
 
             const li = document.createElement("li");
             li.innerHTML = `<span>${text}</span><button class="delete" onclick="this.parentElement.remove()">delete</button>`;
