@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Cagri's first javascript</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .calculaterButton {
+
+            width: 60px;
+            height: 60px;
+            background-color: #72c274;
+            border: 2px solid #2b722e;
+            border-radius: 8px;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            margin: 5px;
+        }
+
+        .calculaterButton:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+            box-shadow: #45a049;
+        }
+
+
+        .inputClass {
+            width: 200px;
+            padding: 12px;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: 0.3s;
+            outline: none;
+        }
+
+        .inputClass:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 15px #2f7231;
+        }
+
+        .resultText {
+            display: block;
+            font-family: 'Poppins', sans-serif;
+            font-size: 28px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .calculaterText {
+            display: block;
+            padding-top: 75px;
+            line-height: 0;
+            font-size: 55px;
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+
+        .center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .inputToDo[type="text"] {
+            padding: 10px;
+            width: 250px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .inputButton {
+
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .buttonToDo {
+            padding: 10px 15px;
+            margin-left: 10px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: inline;
+        }
+
+        .buttonToDo:hover {
+            background-color: #45a049;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        li {
+            background-color: white;
+            margin: 8px auto;
+            padding: 10px;
+            border-radius: 8px;
+            width: 300px;
+            display: flex;
+            justify-content: space-between;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        li span {
+            flex-grow: 1;
+            text-align: left;
+        }
+
+        .delete {
+            background-color: crimson;
+            padding: 5px 10px;
+            border: none;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .delete:hover {
+            background-color: darkred;
+        }
+
+        .buttonPlus {
+            color: white;
+            background-color: #2b722e;
+            width: 80px;
+            height: 30px;
+            border-radius: 4px;
+            border-color: #2b722e;
+            box-shadow: 10px;
+            cursor: pointer;
+        }
+
+        .answer {
+            margin: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: aqua;
+            border-radius: 15px;
+            border-color: aqua;
+        }
+
+        .answer:hover {
+            background-color: rgb(54, 168, 168);
+        }
+
+        #weatherBox {
+            width: 100px;
+            height: 100px;
+            border: 2px solid #555;
+            font-size: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 11px;
+            margin-left: 24px;
+            margin-top:10px ;
+        }
+        #weatherButton {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: darkcyan;
+            border-radius: 15px;
+            border-color: darkcyan;
+        }
+    </style>
+</head>
+
+<body>
+    <div
+        style="background-image: url('ccc.gif'); background-size: cover; background-repeat: no-repeat; background-position: center; width: 100%; height: 100vh;">
+        <p style="background-color: white; color: green; text-align: center; font-size: 40px;">2025/4/4</p>
+        <p style="color: red; float: right;">This is my page</p>
+        <p style="color: purple ;">This is my first html code</p>
+        <p style="color: grey; text-align:center;">Grey text</p>
+        <div style="display: inline-block;">Left text</div>
+        <div style="display: inline-block;">Right text</div>
+        <button onclick="myFunction()" style=" color: red; border-radius: 5px;">Red Button</button>
+        <button style="color: purple; border-radius: 10px; float: right;">Purple Button</button>
+        <div style="text-align:center;"><button style=" color: pink;">Pink Button</button> </div>
+        <p>Search</p>
+        <input type="search" id="query" name="q" placeholder="Type...">
+        <button>Search</button>
+        <p>updated Index</p>
+        <p style="color: yellow;">Second update</p>
+        <img src="aaa.gif">
+        <img src="bbb.gif">
+    </div>
+
+    <p style="background-color: white; color: green; text-align: center; font-size: 40px;">2025/4/7</p>
+
+
+    <img id="image" src="ccc.gif">
+    <button onclick="Delete()">Delete image</button>
+    <img id="image2" src="ccc.gif">
+    <button onclick="hide()">hide image</button>
+    <button onclick="show()">Show image</button>
+
+    <img style="display: block;" onmouseenter="bigImg(this)" onmouseleave="normalImg(this)" src="ccc.gif" width="200"
+        height="120">
+
+    <img src="bbb.gif" style="position: absolute;
+            top: 1000px;
+            animation: rightleft 3s infinite alternate linear;">
+
+    <style>
+        @keyframes rightleft {
+            0% {
+                left: 0;
+            }
+
+            100% {
+                left: calc(100% - 14%);
+            }
+        }
+    </style>
+    <br><br>
+    <button onclick="myFunction()">click </button>
+    <p id="aaa"></p>
+    <p>This is a new line </p>
+    <!-- onclick="purple1()" -->
+    <p id="red" onmousedown="red1()">Just Red </p>
+    <p id="purple" onmousedown="red2()" onmouseup="purple2()">Red and Purple </p>
+    <p style="color: rgb(5, 235, 120);">New line</p>
+    <p ondblclick="dbFunctoin()">Double click this text</p>
+    <p id="doubleClick"></p>
+
+    <p class="calculaterText">Calculater </p>
+
+    <input class="inputClass" type="number" id="number1" placeholder="1. Number">
+    <input class="inputClass" type="number" id="number2" placeholder="2. Number">
+
+    <br><br>
+
+
+    <button class="calculaterButton" onclick="calculate('+')">+</button>
+    <button class="calculaterButton" onclick="calculate('-')">-</button>
+    <button class="calculaterButton" onclick="calculate('*')">x</button>
+    <button class="calculaterButton" onclick="calculate('/')">/</button>
+
+    <p class="resultText" id="result">Result: </p>
+
+
+    <p style="text-align: center;">To Do list </p>
+
+    <div class="center">
+        <h1>To Do List</h1>
+        <div class="inputButton">
+            <input class="inputToDo" type="text" id="task" placeholder="Add New Task">
+            <button class="buttonToDo" onclick="addTask()">Add</button>
+        </div>
+        <ul id="list"></ul>
+
+    </div>
+
+    <p style="text-align: center;">To Do list with jQuery</p>
+
+    <div style="text-align: center;">
+        <h1>To Do List</h1>
+        <input class="inputToDo" type="text" id="taskInput" placeholder="Add New Task">
+        <button class="buttonToDo" id="addBtn">Add</button>
+
+        <ul id="TaskList"></ul>
+
+    </div>
+
+
+    <h2>counter: <span id="numberx">0</span></h2>
+
+    <button class="buttonPlus" id="pluss">Pluss</button>
+    <button class="buttonPlus" id="min"> Minus </button>
+    <button class="buttonPlus" id="res">Restart</button>
+
+
+    <button style="display: block; margin-top: 50px;" id="btnclk"> Click</button>
+    <p id="btntxt"> Hello Everynyan</p>
+
+
+    <h2>Question: What is HTML?</h2>
+
+    <button class="answer" data-correct="false">A programing language</button>
+    <button class="answer" data-correct="true">Hypertext Markup Language</button>
+    <button class="answer" data-correct="false">A browser</button>
+
+    <p id="resultA"></p>
+
+
+    <button class="buttonPlus" id="showBtn">Show</button>
+    <button class="buttonPlus" id="hideBtn">Hide</button>
+
+    <p style="display: none;" id="textShow"> Hello! I appear with a fade effect</p>
+
+
+    <div id="weatherBox">❄️</div>
+
+    <button id="weatherButton">Weather forecast</button>
+
+    <script>
+
+        // weather app
+        $(document).ready(function(){
+            const weatherStatus = ["☀️", "🌧️", "❄️", "💨", "⛅", "🌩️", "☁️"];
+
+            $('#weatherButton').click(function(){
+                const random = Math.floor(Math.random() * weatherStatus.length);
+                const chosen = weatherStatus[random];
+
+                $('#weatherBox').fadeOut(200, function(){
+                    $(this).text(chosen).fadeIn(200);
+                });
+            });
+        });
+
+        // fade sQ
+
+        $(document).ready(function () {
+            $('#showBtn').click(function () {
+                $('#textShow').fadeIn();
+            });
+
+            $('#hideBtn').click(function () {
+                $('#textShow').fadeOut();
+            });
+
+        });
+
+
+        // quiz
+        $(document).ready(function () {
+            $('.answer').click(function () {
+                let isCorrect = $(this).data('correct');
+                if (isCorrect) {
+                    $('#resultA').text('Ture!').css('color', 'green');
+                } else {
+                    $('#resultA').text('False!').css('color', 'red');
+                }
+            });
+        });
+        // click button 
+        $(document).ready(function () {
+            $('#btnclk').click(function () {
+                $('#btntxt').text('WOW!!! You clicked button!');
+            });
+        });
+
+        // To do list codes starts // With localStorage
+        $(document).ready(function () {
+            // when click add button
+
+            function uploadTask(){
+                const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+                $("#TaskList").empty();
+                tasks.forEach(function(task) {
+                    $("#TaskList").append("<li>" + task + "</li>");
+                });
+            }
+
+            function saveTask() {
+                const tasks = [];
+                $("#TaskList li").each(function(){
+                    tasks.push($(this).text());
+                });
+                localStorage.setItem("tasks", JSON.stringify(tasks));
+            }
+
+            uploadTask();
+
+
+            $("#addBtn").click(function () {
+                const metin = $("#taskInput").val().trim();
+
+                if (metin !== "") {
+                    $("#TaskList").append("<li>" + metin + "</li>");
+                    $("#taskInput").val(""); // clear input
+                    saveTask();
+                }
+            });
+
+            // when press li
+            $("#TaskList").on("click", "li", function () {
+                $(this).remove();
+                saveTask();
+            });
+        });
+        //to do list codes ends
+
+        //alert(" Hello! ");
+
+        $(document).ready(function () {
+            let counter = 0;
+
+            $("#pluss").click(function () {
+                counter++;
+                $("#numberx").text(counter);
+            });
+
+            $("#min").click(function () {
+                counter--;
+                $("#numberx").text(counter);
+            });
+
+            $("#res").click(function () {
+                counter = 0;
+                $("#numberx").text(counter);
+            });
+        });
+
+
+        function Delete() {
+            const img = document.getElementById("image");
+            img.remove();
+        }
+
+        function hide() {
+            document.getElementById("image2").style.display = "none";
+        }
+
+        function show() {
+            document.getElementById("image2").style.display = "inline";
+        }
+
+        function bigImg(z) {
+            z.style.height = "240px";
+            z.style.width = "400px";
+        }
+
+        function normalImg(z) {
+            z.style.height = "120px";
+            z.style.width = "200px";
+        }
+
+        function myFunction() {
+            document.getElementById("aaa").innerHTML = "Sakura";
+        }
+
+        function red1() {
+            document.getElementById("red").style.color = "red";
+        }
+
+        //  function purple1() {
+        //    document.getElementById("red").style.color = "purple";
+        //}
+
+        function red2() {
+            document.getElementById("purple").style.color = "red";
+        }
+
+        function purple2() {
+            document.getElementById("purple").style.color = "purple";
+        }
+
+        function dbFunctoin() {
+            document.getElementById("doubleClick").innerHTML += "Watermelon ";
+        }
+
+        function calculate(x) {
+            const s1 = parseFloat(document.getElementById('number1').value);
+            const s2 = parseFloat(document.getElementById('number2').value);
+            let result;
+
+            if (isNaN(s1) || isNaN(s2)) {
+                result = 'Please enter two numbers.';
+            } else {
+                switch (x) {
+                    case '+': result = s1 + s2; break;
+                    case '-': result = s1 - s2; break;
+                    case '*': result = s1 * s2; break;
+                    case '/':
+                        result = s2 !== 0 ? s1 / s2 : 'It cannot be divided by zero!';
+                        break;
+                    default: result = 'Invalid operation';
+                }
+            }
+
+            document.getElementById('result').innerText = 'Result: ' + result;
+        }
+
+
+        function addTask() {
+            const input = document.getElementById("task");
+            const list = document.getElementById("list");
+
+            const text = input.value.trim();
+            if (text === "") return;
+
+            const li = document.createElement("li");
+            li.innerHTML = `<span>${text}</span><button class="delete" onclick="this.parentElement.remove()">delete</button>`;
+            list.appendChild(li);
+
+            input.value = "";
+
+        }
+
+    </script>
+</body>
+
+</html>
