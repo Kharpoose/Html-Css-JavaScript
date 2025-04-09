@@ -227,15 +227,28 @@
         }
 
         .deleteBtn {
+            width: 60px;
             position: absolute;
             right: 10px;
-            top: 18px;
-            bottom: 18px;
+            bottom: 8px;
             border-radius: 15px;
             background: red;
             color: white;
             border: none;
             padding: 5px 10px;
+            cursor: pointer;
+
+        }
+
+        .editBtn {
+            position: absolute;
+            right: 10px;
+            border-radius: 15px;
+            width: 60px;
+            background: rgb(78, 194, 32);
+            color: white;
+            border: none;
+            padding: 5px 10px 5px 5px;
             cursor: pointer;
         }
 
@@ -262,6 +275,33 @@
 
             list-style: none;
             padding: 0;
+        }
+
+        .liShop {
+            margin: 5px 0;
+        }
+
+        #weatherBox1 {
+            width: 200px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-top: 20px;
+        }
+
+        #dogBtn,
+        #catBtn,
+        #triviaBtn {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: red;
+            border-radius: 15px;
+            border-color: red;
+            text-align: center;
+            vertical-align: middle;
+            display: inline-block;
+            line-height: 1.5;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -441,11 +481,203 @@
 
     <ul id="noteList"></ul>
 
+    <p style="background-color: white; color: green; text-align: center; font-size: 40px;">2025/4/9</p>
+
+    <h4> Shopping List </h4>
+
+    <input style="margin: 5px; padding: 5px;" type="text" id="itemName" placeholder="Product Name">
+    <input style="margin: 5ps; padding: 5px;" type="text" id="itemPrice" placeholder="Product Price">
+    <button style="margin: 5px; padding: 5px;" id="addItem">Add</button>
+
+    <ul style="list-style: none;" id="shoppingList"></ul>
+
+    <h5>Total: <span id="total">¥0</span></h5>
+
+
+
+    <p>Weather app using API</p>
+
+    <input type="text" id="cityInput" placeholder="Enter city">
+    <button id="getWeather">search</button>
+    <div id="weatherBox1">
+    </div>
+
+    <p>dog ceo's api</p>
+    <button id="dogBtn">dog</button>
+    <img id="resim" src="" width="300" height="300">
+
+    <p>Cat api</p>
+    <button id="catBtn">Cat</button>
+    <img id="catImg" src="" width="300" height="300">
+
+
+    <p>Activity Generator (api get boomed)</p>
+
+    <button id="activityBtn">Get Activity</button>
+    <div id="activityG"></div>
+
+    <p>Advice API (api get boomed again)</p>
+    <button id="adviceBtn">Give me Advice</button>
+    <div id="adviceD"></div>
+
+    <h3>Trivia API</h3>
+    <button id="triviaBtn">Click it</button>
+    <div style="font-size: 40px;" id="triviaD"></div>
+
     <script>
+
+        $(document).ready(function () {
+            const triviaUrl = "https://uselessfacts.jsph.pl/random.json?language=en";
+            $("#triviaBtn").click(function () {
+                $.getJSON(triviaUrl)
+                    .done(function (data) {
+                        const tri = data.text;
+                        $("#triviaD").text(tri);
+                        console.log(data);
+                    })
+            })
+        })
+
+        //Advice API
+        // api get boomed
+
+        $(document).ready(function () {
+            const adviceUrl = "https://api.adviceslip.com/advice";
+            $("#adviceBtn").click(function () {
+                $.getJSON(adviceUrl)
+                    .done(function (data) {
+                        console.log(data);
+                    });
+            });
+        });
+
+        // Activity Generator api
+        // api is boomed i think
+        $(document).ready(function () {
+            const activityUrl = "https://www.boredapi.com/api/activity";
+            $("#activityBtn").click(function () {
+                $.getJSON(activityUrl)
+                    .done(function (data) {
+                        console.log(data);
+                    });
+            });
+        });
+
+
+        //cat(car) Api
+
+        $(document).ready(function () {
+            const catUrl = `https://api.thecatapi.com/v1/images/search`;
+            $("#catBtn").click(function () {
+                $.getJSON(catUrl)
+                    .done(function (data) {
+                        const cat = data[0].url;
+                        $("#catImg").attr("src", cat);
+                        console.log(data);
+                    });
+
+            });
+
+        });
+
+        // dog ceo
+
+        $(document).ready(function () {
+            const dogUrl = `https://dog.ceo/api/breeds/image/random`;
+
+            $("#dogBtn").click(function () {
+
+                $.getJSON(dogUrl)
+                    .done(function (data) {
+                        const dog = data.message;
+                        $("#resim").attr("src", dog);
+                        console.log(data);
+
+                    });
+
+            })
+        });
+
+        // hava durumu apisi
+        $(document).ready(function () {
+            $('#getWeather').click(function () {
+                const city = $('#cityInput').val(); // input'tan şehir adını al
+                const apiKey = '230b93b3c9b9e2d204473361d5f50e35'; // kendi API anahtarını buraya yaz
+                const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=tr`;
+
+                // API'ye istek at
+                $.getJSON(apiUrl)
+                    .done(function (data) {
+                        // API'den gelen veriler
+                        const cityName = data.name;
+                        const temp = data.main.temp;
+                        const description = data.weather[0].description;
+                        const iconCode = data.weather[0].icon;
+                        const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+
+                        // HTML içeriği oluştur
+                        const html = `
+                <h3>${cityName}</h3>
+                <img src="${iconUrl}" alt="${description}">
+                <p>${temp}°C, ${description}</p>
+              `;
+                        $("#cityInput").val("")
+
+                        // Kutunun içine yerleştir
+                        $('#weatherBox1').html(html);
+                    })
+
+                    .fail(function () {
+                        // Hatalı şehir adı girildiyse
+                        $('#weatherBox1').html('<p>City not found 😢</p>');
+                    });
+            });
+        });
+
+        //shopping list
+
+        $(document).ready(function () {
+            $("#shoppingList").sortable();
+            let total = 0;
+
+            $("#addItem").click(function () {
+                const name = $("#itemName").val().trim();
+                const price = parseFloat($("#itemPrice").val());
+
+                if (name === "" || isNaN(price)) return;
+
+                $("#shoppingList").append(
+                    `<li class="liShop"> 
+                        ${name} - ¥${price.toFixed(2)}
+                        <button class ="remove"> Delete </button>
+                        </li>`
+                );
+
+                total += price;
+                $("#total").text("¥" + total.toFixed(2));
+
+                $("#itemName").val("");
+                $("#itemPrice").val("");
+
+            });
+            $("#shoppingList").on("click", ".remove", function () {
+                const li = $(this).parent();
+                const text = li.text();
+
+                const match = text.match(/¥(\d+(\.\d+)?)/);
+                if (match) {
+                    const price = parseFloat(match[1]);
+                    total -= price;
+                    $("#total").text("¥" + total.toFixed(2));
+                }
+                li.remove();
+            });
+        });
 
         //Notepad clone i think
 
         $(document).ready(function () {
+            $("#noteList").sortable();
 
             loadNotes();
 
@@ -462,7 +694,7 @@
 
                 appendNoteToList(noteObj);
 
-                saveNoreToStorage(noteObj);
+                saveNoteToStorage(noteObj);
 
                 $("#noteInput").val("");
 
@@ -471,14 +703,15 @@
                 $("#noteList").append(
                     `<li class="libaba">
                 <span><strong>${noteObj.text}</strong><br><small>${noteObj.time}</small></span>
+                <button class="editBtn">Edit </button>
                 <button class="deleteBtn">Delete</button>
             </li>`
                 );
-                $("#noteList").sortable();
+
 
             }
 
-            function saveNoreToStorage(noteObj) {
+            function saveNoteToStorage(noteObj) {
                 let notes = JSON.parse(localStorage.getItem("notes")) || [];
                 notes.push(noteObj);
                 localStorage.setItem("notes", JSON.stringify(notes));
@@ -496,6 +729,24 @@
                 notes.splice(index, 1);
                 localStorage.setItem("notes", JSON.stringify(notes));
             });
+
+            $("#noteList").on("click", ".editBtn", function () {
+                const li = $(this).parent();
+                const index = li.index();
+                let notes = JSON.parse(localStorage.getItem("notes")) || [];
+
+                const currentText = notes[index].text;
+                const newText = prompt("Write new note: ", currentText);
+
+                if (newText !== null && newText.trim() !== "") {
+                    notes[index].text = newText.trim();
+                    notes[index].time = new Date().toLocaleString();
+
+                    localStorage.setItem("notes", JSON.stringify(notes));
+                    $("#noteList").empty();
+                    loadNotes();
+                }
+            })
 
             $("#addNote").click(function () {
                 addNote();
