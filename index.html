@@ -290,7 +290,8 @@
 
         #dogBtn,
         #catBtn,
-        #triviaBtn {
+        #triviaBtn,
+        #jokeBtn {
             padding: 10px 20px;
             font-size: 16px;
             color: white;
@@ -516,15 +517,260 @@
     <button id="activityBtn">Get Activity</button>
     <div id="activityG"></div>
 
-    <p>Advice API (api get boomed again)</p>
-    <button id="adviceBtn">Give me Advice</button>
-    <div id="adviceD"></div>
 
     <h3>Trivia API</h3>
     <button id="triviaBtn">Click it</button>
     <div style="font-size: 40px;" id="triviaD"></div>
 
+    <p style="background-color: white; color: rgb(255, 60, 0); text-align: center; font-size: 40px;">2025/4/10</p>
+
+    <p>Advice API </p>
+    <button id="adviceBtn">Give me Advice</button>
+    <div style="font-size: 40px;" id="adviceD"></div>
+
+    <p>News app using API</p>
+
+    <input id="searchInput" type="text">
+    <button id="searchBtn">Search</button>
+    <div id="newsList"></div>
+
+    <p>Google books api</p>
+
+    <input id="bookSearch" type="text">
+    <button id="bookBtn">Search</button>
+    <div id="bookDiv"></div>
+
+    <p>Zen Quotes API</p>
+
+    <button id="zenBtn">Zen</button>
+    <div id="zenC"></div>
+    <div id="zenA"></div>
+
+    <p>Cat Facts</p>
+    <button id="catFBtn">Cat</button>
+    <div id="fact"></div>
+
+    <p> Agify API </p>
+
+    <input id="nameIn" type="text">
+    <button id="agifyBtn">Agify</button>
+    <div id="agifyDiv"></div>
+    <div id="ageDiv"></div>
+
+    <h1>Joke API</h1>
+    <button id="jokeBtn">Press</button>
+    <div id="joke1"></div>
+    <div id="joke2"></div>
+
+    <h1>Genderize API </h1>
+    <input id="genderIn" type="text">
+    <button id="genderBtn">Search</button>
+    <div id="genderDiv"></div>
+
+    <h1>Pokemon API</h1>
+    <input type="text" id="pokeIn">
+    <button id="pokeBtn"> Search</button>
+    <img id="pokemonImg" src="">
+    <div id="pokeDiv0"></div>
+    <div id="pokeDiv1"></div>
+    <div id="pokeDiv2"></div>
+    <div id="pokeDiv3"></div>
+    <div id="pokeDiv4"></div>
+    <div id="pokeDiv5"></div>
+
     <script>
+        //alert(" Hello! ");
+
+        //Pokemon api
+        $(document).ready(function () {
+            const pokeUrl = "https://pokeapi.co/api/v2/pokemon/pikachu"
+
+            $("#pokeBtn").click(function () {
+                $.getJSON(pokeUrl)
+                    .done(function (data) {
+                        console.log(data)
+                        const name = data.name;
+                        $("#pokeDiv0").text(name);
+                        const Aname = data.abilities[0].ability.name;
+                        $("#pokeDiv1").text(Aname)
+                        const aname = data.abilities[1].ability.name;
+                        $("#pokeDiv2").text(aname);
+                        const exp = data.base_experience;
+                        $("#pokeDiv3").text(exp);
+                        const weight = data.weight;
+                        $("#pokeDiv4").text(weight);
+                        const height = data.height
+                        $("#pokeDiv5").text(height);
+                        const img = data.sprites.front_default;
+                        $("#pokemonImg").attr("src", img);
+                    })
+            })
+        })
+
+        // gender api
+        $(document).ready(function () {
+
+            $("#genderBtn").click(function () {
+
+                const x = $("#genderIn").val().trim();
+                const genderUrl = `https://api.genderize.io/?name=${x}`;
+                if (x === "") return;
+
+                $("#genderIn").val("");
+                $.getJSON(genderUrl)
+                    .done(function (data) {
+                        console.log(data)
+
+                        const gender = data.gender;
+                        $("#genderDiv").text(gender);
+                    })
+            })
+        })
+
+
+        // JOKE API
+
+        $(document).ready(function () {
+            const jokeUrl = "https://official-joke-api.appspot.com/random_joke"
+
+            $("#jokeBtn").click(function () {
+                $.getJSON(jokeUrl)
+                    .done(function (data) {
+                        console.log(data);
+                        const first = data.setup;
+                        const second = data.punchline;
+
+                        $("#joke1").text(first);
+                        $("#joke2").text(second);
+                    });
+            });
+        });
+
+        // Agify API 
+        $(document).ready(function () {
+
+
+
+            $("#agifyBtn").click(function () {
+
+                const x = $("#nameIn").val().trim();
+                const agUrl = `https://api.agify.io/?name=${x}`;
+
+                if (x === "") return;
+
+                $.getJSON(agUrl)
+                    .done(function (data) {
+                        console.log(data);
+                        const age = data.age;
+                        const name = data.name;
+                        $("#agifyDiv").text(name);
+                        $("#ageDiv").text(age);
+
+                        $("#nameIn").empty();
+                    });
+            });
+        });
+
+        // Cat Facts API
+
+        $(document).ready(function () {
+            const catUrl = "https://catfact.ninja/fact";
+            $("#catFBtn").click(function () {
+                $.getJSON(catUrl)
+                    .done(function (data) {
+                        console.log(data);
+                        const fact = data.fact;
+                        $("#fact").text(fact);
+                    });
+            });
+        });
+
+        //Zen Quotes API
+
+        $(document).ready(function () {
+
+            const zenUrl = "https://api.allorigins.win/raw?url=https://zenquotes.io/api/random";
+
+            $("#zenBtn").click(function () {
+                $.getJSON(zenUrl)
+                    .done(function (data) {
+                        console.log(data)
+                        const text = data[0].q;
+                        const aut = data[0].a
+                        $("#zenC").text(text);
+                        $("#zenA").text(aut);
+                    });
+
+            });
+        });
+
+        // book api
+        $(document).ready(function () {
+            $("#bookBtn").click(function () {
+                const kelime = $("#bookSearch").val().trim();
+                if (kelime === "") return;
+                const bookUrl = `https://www.googleapis.com/books/v1/volumes?q=${kelime}`;
+
+
+                $.getJSON(bookUrl)
+                    .done(function (data) {
+                        $("#bookDiv").empty();
+                        console.log(data);
+                        data.items.slice(0, 3).forEach(function (kitap) {
+                            const baslik = kitap.volumeInfo.title;
+
+                            // İstersen yazdır:
+                            console.log(baslik);
+
+                            // Sayfaya eklemek için:
+                            const html = `<p>${baslik}</p>`;
+                            $("#bookDiv").append(html);
+                        });
+                    });
+            });
+
+        });
+
+        // news api
+        $(document).ready(function () {
+            const apiKey = "22c8e2326e604b6d9df649a27fbeeeed";
+
+            $("#searchBtn").click(function () {
+                const query = $("#searchInput").val().trim();
+                if (query === "") return;
+
+                const url = `https://newsapi.org/v2/everything?q=${query}&apiKey=${apiKey}`;
+
+                $.getJSON(url)
+                    .done(function (data) {
+                        $("#newsList").empty(); // clear past news
+
+                        const articles = data.articles.slice(0, 3);;
+
+                        if (articles.length === 0) {
+                            $("#newsList").append("<p>No news found!</p>");
+                        } else {
+                            articles.forEach(function (article) {
+                                const card = `
+                            <div style="border:1px solid #ccc; margin:10px; padding:10px;">
+                                <h3>${article.title}</h3>
+                                <img src="${article.urlToImage}" " style="width:100%; max-width:400px;">
+                                <p>${article.description || "No explanation!"}</p>
+                                <a href="${article.url}" target="_blank">Read News</a>
+                            </div>
+                        `;
+                                $("#newsList").append(card);
+                            });
+                        }
+                    })
+                    .fail(function () {
+                        $("#newsList").html("<p>Error!!.</p>");
+                    });
+            });
+        });
+
+
+        // triva api
 
         $(document).ready(function () {
             const triviaUrl = "https://uselessfacts.jsph.pl/random.json?language=en";
@@ -547,6 +793,8 @@
                 $.getJSON(adviceUrl)
                     .done(function (data) {
                         console.log(data);
+                        const adc = data.slip.advice;
+                        $("#adviceD").text(adc);
                     });
             });
         });
@@ -898,7 +1146,7 @@
         });
         //to do list codes ends
 
-        alert(" Hello! ");
+
 
         $(document).ready(function () {
             let counter = 0;
