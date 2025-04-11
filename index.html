@@ -304,6 +304,45 @@
             line-height: 1.5;
             cursor: pointer;
         }
+
+        #pokeIn {
+            width: 25%;
+            padding: 12px, 25px, 55px;
+            margin: 10px;
+            box-sizing: border-box;
+            border: 2px solid red;
+            border-radius: 4px;
+            height: 40px;
+            font-size: 20px;
+        }
+
+        #pokeBtn {
+            width: 80px;
+            height: 40px;
+            border: 5px;
+            color: black;
+            background-color: yellow;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        #pokemonImg {
+
+            padding: 12px, 25px, 55px;
+            margin: 10px;
+            display: inline-block;
+            width: 150px;
+            height: 150px;
+            border: 2px solid red;
+        }
+
+        #pokeDiv0 {
+            margin-left: 5px;
+            padding-top: 55px;
+
+            display: inline-block;
+
+        }
     </style>
 </head>
 
@@ -568,30 +607,44 @@
     <div id="genderDiv"></div>
 
     <h1>Pokemon API</h1>
-    <input type="text" id="pokeIn">
+    <input placeholder="Enter Your Pokemon Name..." type="text" id="pokeIn">
     <button id="pokeBtn"> Search</button>
-    <img id="pokemonImg" src="">
-    <div id="pokeDiv0"></div>
-    <div id="pokeDiv1"></div>
-    <div id="pokeDiv2"></div>
+    <div>
+        <img id="pokemonImg" src="">
+        <div id="pokeDiv0"></div>
+    </div>
+    <div style="display: flex;">
+        <div>
+            <div id="pokeDiv1"></div>
+            <div id="pokeDiv2"></div>
+        </div>
+        <div>
+            <div id="pokeDiv4"></div>
+            <div id="pokeDiv5"></div>
+        </div>
+    </div>
     <div id="pokeDiv3"></div>
-    <div id="pokeDiv4"></div>
-    <div id="pokeDiv5"></div>
 
     <script>
         //  alert(" Hello! ");
 
         //Pokemon api
         $(document).ready(function () {
-            const pokeUrl = "https://pokeapi.co/api/v2/pokemon/pikachu"
 
             $("#pokeBtn").click(function () {
+
+                const inputPoke = $("#pokeIn").val().trim();
+                const pokeUrl = `https://pokeapi.co/api/v2/pokemon/${inputPoke}`;
+
                 $.getJSON(pokeUrl)
                     .done(function (data) {
+                        if (inputPoke === "") return;
+                        $("#pokeIn").val("")
+
                         console.log(data)
-                        const name = data.name;
+                        const name = `Pokemon Name: ${data.name}`;
                         $("#pokeDiv0").text(name);
-                        const Aname = data.abilities[0].ability.name;
+                        const Aname =  data.abilities[0].ability.name;
                         $("#pokeDiv1").text(Aname)
                         const aname = data.abilities[1].ability.name;
                         $("#pokeDiv2").text(aname);
