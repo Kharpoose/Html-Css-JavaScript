@@ -640,7 +640,7 @@
 
     <p> OMDb API </p>
 
-    <input id="ombIN" type="text">
+    <input placeholder="Enter your show..." id="ombIN" type="text">
     <button id="omBtn">Search</button>
     <img style="display: block;" src="" id="ombImg">
     <div id="ombName"></div>
@@ -649,9 +649,48 @@
     <div id="writer"></div>
     <div id="plot"></div>
 
+    <h1>Nasa API</h1>
+
+
+    <img style="display: block;" src="" id="nasaImg1">
+    <div id="nasaDiv1"></div>
+    <input type="date" name="" id="testDate">
+    <button id="nasaBtn">Search</button>
+    <button id="dateBtn"> Date test</button>
+
 
     <script>
-        //alert(" Hello! ");
+
+
+        alert(" Hello! ");
+        $(document).ready(function () {
+            $("#dateBtn").click(function () {
+                const x = $("#testDate").val().trim();
+                console.log(x);
+            });
+
+        });
+
+        //nasa api
+        $(document).ready(function () {
+
+            $("#nasaBtn").click(function () {
+
+                const x = $("#testDate").val().trim();
+                const nasaUrl = `https://api.nasa.gov/planetary/apod?date=${x}&api_key=DEMO_KEY`;
+
+                $.getJSON(nasaUrl)
+                    .done(function (data) {
+                        console.log(data);
+                        const image = data.url;
+                        $("#nasaImg1").attr("src", image)
+                    });
+
+            });
+        });
+
+
+        // mov:es and anime 
         $(document).ready(function () {
 
 
@@ -680,7 +719,7 @@
                         $("#plot").text(plot);
                     });
 
-            })
+            });
         });
 
         //Rest Countries API
@@ -708,9 +747,9 @@
                         $("#langu").text(first);
                         const popu = data[0].population.toLocaleString();
                         $("#popu").text(popu);
-                    })
-            })
-        })
+                    });
+            });
+        });
 
         //Pokemon api
         $(document).ready(function () {
