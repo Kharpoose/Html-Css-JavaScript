@@ -605,6 +605,8 @@
     <input id="genderIn" type="text">
     <button id="genderBtn">Search</button>
     <div id="genderDiv"></div>
+    <p style="background-color: white; color: rgb(255, 60, 0); text-align: center; font-size: 40px;">2025/4/11</p>
+
 
     <h1>Pokemon API</h1>
     <input placeholder="Enter Your Pokemon Name..." type="text" id="pokeIn">
@@ -625,8 +627,90 @@
     </div>
     <div style="color: yellowgreen;" id="pokeDiv3"></div>
 
+    <p style="background-color: white; color: rgb(255, 60, 0); text-align: center; font-size: 40px;">2025/4/14</p>
+
+    <h1>Rest Countries API </h1>
+    <input id="countrIn" type="text" placeholder="Enter country: ">
+    <button id="countryBtn">Search</button>
+    <img style="display: block;" src="" id="flagID">
+    <div id="CouName"></div>
+    <div id="capital"></div>
+    <div id="langu"></div>
+    <div id="popu"></div>
+
+    <p> OMDb API </p>
+
+    <input id="ombIN" type="text">
+    <button id="omBtn">Search</button>
+    <img style="display: block;" src="" id="ombImg">
+    <div id="ombName"></div>
+    <div id="relase"></div>
+    <div id="LanguageD"></div>
+    <div id="writer"></div>
+    <div id="plot"></div>
+
+
     <script>
         //alert(" Hello! ");
+        $(document).ready(function () {
+
+
+
+            $("#omBtn").click(function () {
+
+                const x = $("#ombIN").val().trim();
+
+                const omburl = `https://www.omdbapi.com/?apikey=fca1e084&t=${x}`;
+                $.getJSON(omburl)
+                    .done(function (data) {
+                        if (x === "") return;
+                        $("#ombIN").val("")
+                        console.log(data);
+                        const img = data.Poster;
+                        $("#ombImg").attr("src", img);
+                        const title = data.Title;
+                        $("#ombName").text(title);
+                        const relase = data.Released;
+                        $("#relase").text(relase);
+                        const Language = data.Language;
+                        $("#LanguageD").text(Language);
+                        const writer = data.Writer;
+                        $("#writer").text(writer);
+                        const plot = data.Plot;
+                        $("#plot").text(plot);
+                    });
+
+            })
+        });
+
+        //Rest Countries API
+
+        $(document).ready(function () {
+
+
+            $("#countryBtn").click(function () {
+                const x = $("#countrIn").val().trim();
+                const countriesUrl = `https://restcountries.com/v3.1/name/${x}`;
+
+                $.getJSON(countriesUrl)
+                    .done(function (data) {
+                        if (x === "") return;
+                        $("#countrIn").val("")
+                        console.log(data);
+                        const name = data[0].name.common;
+                        $("#CouName").text(name);
+                        const flag = data[0].flags.png;
+                        $("#flagID").attr("src", flag);
+                        const capital = data[0].capital;
+                        $("#capital").text(capital);
+                        const language = data[0].languages;
+                        const first = Object.values(language)[0];
+                        $("#langu").text(first);
+                        const popu = data[0].population.toLocaleString();
+                        $("#popu").text(popu);
+                    })
+            })
+        })
 
         //Pokemon api
         $(document).ready(function () {
@@ -634,20 +718,20 @@
             $("#pokeBtn").click(function () {
 
                 const inputPoke = $("#pokeIn").val().trim();
-                
+
                 const pokeUrl = `https://pokeapi.co/api/v2/pokemon/${inputPoke}`;
 
                 $.getJSON(pokeUrl)
                     .done(function (data) {
                         if (inputPoke === "") return;
-                        $("#pokeIn").val("")
+                        $("#pokeIn").val("");
 
                         console.log(data)
                         const name = `Pokemon Name: ${data.name}`;
                         $("#pokeDiv0").text(name);
                         const Aname = `First Ability Name: ${data.abilities[0].ability.name}`;
                         $("#pokeDiv1").text(Aname)
-                        const aname = ` Second Ability Name: ${data.abilities[1]?.ability.name || "No Abilities" }`;
+                        const aname = ` Second Ability Name: ${data.abilities[1]?.ability.name || "No Abilities"}`;
                         $("#pokeDiv2").text(aname);
                         const exp = `Experiance: ${data.base_experience}`;
                         $("#pokeDiv3").text(exp);
@@ -657,9 +741,9 @@
                         $("#pokeDiv5").text(height);
                         const img = data.sprites.front_default;
                         $("#pokemonImg").attr("src", img);
-                    })
-            })
-        })
+                    });
+            });
+        });
 
         // gender api
         $(document).ready(function () {
