@@ -699,9 +699,9 @@
                         const date = data.discoveryDate;
                         $("#discoDiv").text("Discovery Date: " + date);
                         const gravity = data.gravity;
-                        $("#gravityD").text(gravity);
+                        $("#gravityD").text("Gravity: " + gravity);
                         const type = data.bodyType;
-                        $("#typeSolar").text(type);
+                        $("#typeSolar").text("Celestial object type: " + type);
                         console.log(data);
                         $("#SolarIn").val("");
                     });
