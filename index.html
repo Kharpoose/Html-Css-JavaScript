@@ -591,7 +591,7 @@
 
     <p> Agify API </p>
 
-    <input id="nameIn" type="text">
+    <input placeholder="Enter name" id="nameIn" type="text">
     <button id="agifyBtn">Agify</button>
     <div id="agifyDiv"></div>
     <div id="ageDiv"></div>
@@ -658,11 +658,57 @@
     <button id="nasaBtn">Search</button>
     <button id="dateBtn"> Date test</button>
 
+    <p style="background-color: white; color: rgb(255, 60, 0); text-align: center; font-size: 40px;">2025/4/15</p>
+
+    <h1>Solar API</h1>
+    <input id="SolarIn" type="text">
+    <button id="solarBtn">test</button>
+    <div id="solarName"></div>
+    <div id="SoalrMoon"></div>
+    <div id="typeSolar"></div>
+    <div id="isPlanet"></div>
+    <div id="discoDiv"></div>
+    <div id="gravityD"></div>
+
 
     <script>
-
-
         alert(" Hello! ");
+
+        // Solar api
+        $(document).ready(function () {
+
+            $("#solarBtn").click(function () {
+                const planet = $("#SolarIn").val().trim();
+                const url = `https://api.le-systeme-solaire.net/rest/bodies/${planet}`;
+                $.getJSON(url)
+                    .done(function (data) {
+                        if (planet === "") return;
+                        const name = data.name;
+                        $("#solarName").text(name);
+                        if (data.moons && data.moons.length > 0) {
+                            const moon = data.moons.length;
+                            $("#SoalrMoon").text("How many moons does " + planet + " have: " + moon || 0);
+                        }
+                        else {
+                            $("#SoalrMoon").text("This planet Doesnt have a moon.")
+                        };
+                        const isPlanet = data.isPlanet;
+                        if (isPlanet === true) {
+                            $("#isPlanet").text("This is a planet")
+                        } else { $("#isPlanet").text("This is not a planet") };
+                        const date = data.discoveryDate;
+                        $("#discoDiv").text("Discovery Date: " + date);
+                        const gravity = data.gravity;
+                        $("#gravityD").text(gravity);
+                        const type = data.bodyType;
+                        $("#typeSolar").text(type);
+                        console.log(data);
+                        $("#SolarIn").val("");
+                    });
+            });
+        });
+
+
         $(document).ready(function () {
             $("#dateBtn").click(function () {
                 const x = $("#testDate").val().trim();
